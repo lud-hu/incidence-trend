@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.0.0",
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@tailwindcss/postcss7-compat": "^2.0.2",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.0",
@@ -10,17 +15,31 @@
     "@types/node": "^12.19.14",
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "@types/react-query": "^1.1.2",
+    "@types/react-select": "^3.1.2",
+    "@types/recharts": "^1.8.19",
+    "autoprefixer": "^9.8.6",
+    "axios": "^0.21.1",
+    "postcss": "^7.0.35",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-query": "^3.5.15",
     "react-scripts": "4.0.1",
+    "react-select": "^3.2.0",
+    "recharts": "^1.8.5",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "typescript": "^4.1.3",
     "web-vitals": "^0.2.4"
   },
+  "devDependencies": {
+    "@types/material-ui": "^0.21.8"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "deploy": "run build && firebase deploy"
   },
   "eslintConfig": {
     "extends": [
