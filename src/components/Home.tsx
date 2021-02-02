@@ -10,6 +10,7 @@ import {
   groupStyles,
   groupBadgeStyles,
 } from "../helper/selectStylings";
+import Footer from "./Footer";
 
 interface Option {
   value: string;
@@ -43,7 +44,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="mx-4 min-h-screen relative pb-8">
+    <div className="mx-4 min-h-screen relative pb-12">
       <div className="py-6">
         <Typography variant="h2">Inzidenz Trend</Typography>
         <Typography>
@@ -79,22 +80,8 @@ const Home: React.FC = () => {
           names={selectedIds.map((id) => id.label)}
         />
       )}
-      <div className="absolute bottom-0 h-8">
-        Daten von{" "}
-        <a
-          href="https://api.corona-zahlen.org/docs/#data-sources"
-          className="underline pointer"
-        >
-          RKI
-        </a>
-        , aggregiert von{" "}
-        <a
-          href="https://api.corona-zahlen.org/docs/"
-          className="underline pointer"
-        >
-          Marlon Lückert
-        </a>
-        .
+      <div className="absolute bottom-0 h-12 w-full flex items-center flex-wrap">
+        <Footer/>
       </div>
     </div>
   );
