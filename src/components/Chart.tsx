@@ -64,7 +64,7 @@ const Chart: React.FC<Props> = (props: Props) => {
     {
       // cacheTime: 0,
       keepPreviousData: false,
-      staleTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60 * 60,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       refetchOnMount: false,
@@ -82,7 +82,6 @@ const Chart: React.FC<Props> = (props: Props) => {
   ];
 
   useEffect(() => {
-    console.log(data);
     // We'll wait until all the queries have resolved, so that
     // we get smooth animations in the graph (otherwise some will return
     // earlier and enforce rerenders).
@@ -189,8 +188,13 @@ const Chart: React.FC<Props> = (props: Props) => {
             interval={yTicks.length > 10 ? 1 : 0}
           />
           <ReferenceLine
-            y={200}
+            y={100}
             stroke={theme.palette.error.light}
+            strokeDasharray="3 3"
+          />
+          <ReferenceLine
+            y={50}
+            stroke={theme.palette.warning.light}
             strokeDasharray="3 3"
           />
           <Tooltip

@@ -1,4 +1,9 @@
-const options = [
+import { Option } from "../components/Home";
+
+const options: {
+  label: string;
+  options: Option[];
+}[] = [
   {
     label: "Land",
     options: [{ value: "DE", label: "Deutschland", type: "COUNTRY" }],
