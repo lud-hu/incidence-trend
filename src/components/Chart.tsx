@@ -1,4 +1,5 @@
 import { useTheme } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import {
   LineChart,
@@ -57,7 +58,7 @@ const Chart: React.FC<Props> = (props: Props) => {
   const [highlightedId, setHighlightedId] = useState<string>("");
   const [lastDayCount, setLastDayCount] = useState<number>(31);
 
-  const { data, isLoading } = useMultiQuery<DistrictResponse>(
+  const { data, isLoading, isError } = useMultiQuery<DistrictResponse>(
     lastDayCount > 0
       ? props.endpoints.map((e) => `${e}/${lastDayCount}`)
       : props.endpoints,
@@ -85,7 +86,7 @@ const Chart: React.FC<Props> = (props: Props) => {
     // We'll wait until all the queries have resolved, so that
     // we get smooth animations in the graph (otherwise some will return
     // earlier and enforce rerenders).
-    if (data.length === props.endpoints.length) {
+    if (data.length === props.endpoints.length && !isError) {
       // Prepare Data
       const newTableData = transformData(data);
       setTableData(newTableData);
@@ -144,13 +145,38 @@ const Chart: React.FC<Props> = (props: Props) => {
           entry[
             getDistrictData(district).ags ||
               getDistrictData(district).id ||
-              "jo"
+              "none"
           ] = Math.round(incidenceData.weekIncidence);
         }
       });
       return entry;
     });
   };
+
+  /**
+   * Enriches the legend text with the current incidence value.
+   * e.g.: "München (Stadt): 34" instead of "München (Stadt)"
+   */
+  const renderLegendText = (value: string, entry: any) => {
+    const key = entry.dataKey;
+    // Filter and get latest value for current district,
+    // since there might be no value for the current day, but some days before
+    const filtered = tableData?.filter((td) => key in td);
+    if (!filtered?.length) return value;
+    return (
+      <>
+        {value}: {filtered?.slice(-1)[0][key] || "..."}
+      </>
+    );
+  };
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        Beim Abruf der Daten ist ein Fehler aufgetreten. Versuche es später
+        nochmal. :(
+      </Alert>
+    );
 
   return (
     <div>
@@ -210,6 +236,7 @@ const Chart: React.FC<Props> = (props: Props) => {
             wrapperStyle={{
               paddingLeft: "10px",
             }}
+            formatter={renderLegendText}
           />
           {props.endpoints.map((id, i) => (
             <Line

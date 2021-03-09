@@ -15,6 +15,7 @@ const useMultiQuery = <T extends any>(
   additionalOptions: UseQueryOptions
 ) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const [data, setData] = useState<T[]>([]);
 
   const multiQuery = useQueries(
@@ -36,15 +37,13 @@ const useMultiQuery = <T extends any>(
 
   useEffect(() => {
     const doneQueries = multiQuery.filter((q) => !q.isLoading);
+    setIsError(!!multiQuery.filter((q) => q.isError).length);
 
     // Set loading state
     const loading = doneQueries.length !== multiQuery.length;
     setIsLoading(loading);
 
-    // If loading is done, return Data
-    // if (!loading) {
     setData(doneQueries.map((e) => (e.data as any).data));
-    // }
     // eslint-disable-next-line
   }, [multiQuery]);
 
@@ -52,6 +51,7 @@ const useMultiQuery = <T extends any>(
     data,
     isLoading,
     refetch,
+    isError,
   };
 };
 
