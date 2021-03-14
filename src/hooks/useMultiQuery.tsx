@@ -37,7 +37,12 @@ const useMultiQuery = <T extends any>(
 
   useEffect(() => {
     const doneQueries = multiQuery.filter((q) => !q.isLoading);
-    setIsError(!!multiQuery.filter((q) => q.isError).length);
+    setIsError(
+      !!multiQuery.filter((q) => {
+        // Also check for errors that are returned by API
+        return q.isError || (!q.isLoading && (q.data as any).data?.error);
+      }).length
+    );
 
     // Set loading state
     const loading = doneQueries.length !== multiQuery.length;
