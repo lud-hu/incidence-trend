@@ -39,8 +39,14 @@ const useMultiQuery = <T extends any>(
     const doneQueries = multiQuery.filter((q) => !q.isLoading);
     setIsError(
       !!multiQuery.filter((q) => {
-        // Also check for errors that are returned by API
-        return q.isError || (!q.isLoading && (q.data as any).data?.error);
+        return (
+          // Check for error in request
+          q.isError ||
+          // Check for errors that are returned by API
+          (!q.isLoading && (q.data as any).data?.error) ||
+          // Check for empty data set even though now error was reported
+          (!q.isLoading && !Object.keys((q.data as any).data.data).length)
+        );
       }).length
     );
 
