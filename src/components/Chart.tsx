@@ -223,6 +223,11 @@ const Chart: React.FC<Props> = (props: Props) => {
             stroke={theme.palette.warning.light}
             strokeDasharray="3 3"
           />
+          <ReferenceLine
+            y={35}
+            stroke={theme.palette.success.light}
+            strokeDasharray="3 3"
+          />
           <Tooltip
             labelStyle={{ color: theme.palette.success.contrastText }}
             labelFormatter={(date) => formatDate(date as number)}
